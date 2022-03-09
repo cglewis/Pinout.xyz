@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import json
 import re
@@ -17,9 +17,6 @@ except ImportError:
 import markjaml
 import pinout
 
-
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 lang = "en"
 
@@ -46,7 +43,6 @@ def slugify(value):
     Normalizes string, converts to lowercase, removes non-alpha characters,
     and converts spaces to hyphens.
     """
-    value = unicode(value)
     value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
     value = re.sub('[^\w\s-]', '', value).strip().lower()
     return re.sub('[-\s]+', '_', value)
@@ -92,4 +88,8 @@ def load_md(filename):
 
 overlays = map(load_overlay, overlays)
 
-print(json.dumps(overlays, sort_keys=True))
+o = []
+for overlay in overlays:
+    o.append(overlay)
+
+print(json.dumps(o, sort_keys=True))

@@ -10,7 +10,7 @@ images:
 
 json:
 	./mkindexjson.py > v1/index.json
-	./mkjson.py
+	./mkjson.py > v1/data.json
 
 md:
 	cp ../src/en/overlay/*.md v1/md

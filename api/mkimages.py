@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import json
 import re
@@ -38,8 +38,8 @@ LOGO = [0,0,1,0,
         5,5,5,0,
         4,4,4,0]
 
-LOGO_FONT = ImageFont.truetype("Lato-Semibold.ttf", 21)
-TEXT_FONT = ImageFont.truetype("Lato-Medium.ttf", 16)
+LOGO_FONT = ImageFont.truetype("Arial.ttf", 21)
+TEXT_FONT = ImageFont.truetype("Arial.ttf", 16)
 
 try:
     import markdown
@@ -50,9 +50,6 @@ import markjaml
 import pinout
 
 output_dir = "v1/img"
-
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 lang = "en"
 
@@ -79,7 +76,6 @@ def slugify(value):
     Normalizes string, converts to lowercase, removes non-alpha characters,
     and converts spaces to hyphens.
     """
-    value = unicode(value)
     value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
     value = re.sub('[^\w\s-]', '', value).strip().lower()
     return re.sub('[-\s]+', '_', value)
@@ -92,7 +88,7 @@ def load_overlay(overlay):
         data['slug'] = slug
 
         if "pin" in data:
-            for pin in data["pin"].keys():
+            for pin in list(data["pin"]):
                 if str(pin).startswith("bcm"):
                     data["pin"][pinout.bcm_to_physical(str(pin).replace("bcm",""))] = data["pin"][pin]
 
@@ -143,7 +139,7 @@ for overlay in overlays:
         ground = overlay["ground"]
 
     if "i2c" in overlay:
-        i2c = ", ".join(overlay["i2c"].keys())
+        i2c = ", ".join(str(overlay["i2c"].keys()))
 
     print("Processing: {}".format(name))
     for pin_number in range(1,41):
